@@ -8,5 +8,6 @@ setup(
         "librosa",
         "numpy",
         "matplotlib",
+        "Pillow"
     ],
 )
