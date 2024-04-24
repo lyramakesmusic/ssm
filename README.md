@@ -22,12 +22,16 @@ ssm = SSM()
 image = ssm.create_img("/path/to/audio/file")
 image.save('generated_ssm.png')
 
+
+
 # Pass audio directly:
 
 import librosa
 sr, audio = librosa.load('path/to/audio/file.wav', sr=None)
 image = ssm.create_img(audio)
 image.save('generated_ssm.png')
+
+
 
 # Change params....
 
@@ -51,6 +55,8 @@ params = {
 }
 image = ssm.create_img(audio, **params)
 image.save('generated_ssm.png')
+
+
 
 # Get the SSM data directly (not as an image):
 
