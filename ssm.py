@@ -7,11 +7,6 @@ class SSM:
     def __init__(self):
         pass
 
-    class AudioAnalyzer:
-    def __init__(self):
-        """Initializer for setting up the audio analyzer environment."""
-        pass
-
     def compute_ssm(self, audio_input, hop_length_factor, n_chroma, bins_per_octave_multiplier, hop_length_multiplier, color_map, threshold):
         
         # audio loading and cleaning
@@ -44,6 +39,6 @@ class SSM:
         buffer = io.BytesIO()
         plt.savefig(buffer, format='png', bbox_inches='tight', pad_inches=0)
         buffer.seek(0)
-        plt.close(fig)  # Close the plot to free resources
+        plt.close(fig)
 
         return buffer.getvalue()
