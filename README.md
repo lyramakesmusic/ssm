@@ -63,6 +63,8 @@ image.save('generated_ssm.png')
 S = ssm.compute_ssm(audio, **params)
 print(S, S.shape)
 
+# NOTE: compute_ssm does not accept the 'color_map' param
+
 ```
 
 Colormaps can be found here: https://matplotlib.org/stable/users/explain/colors/colormaps.html
