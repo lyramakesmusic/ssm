@@ -13,21 +13,21 @@ class SSM:
         self.color_map = color_map
         self.threshold = threshold
 
-    def compute_ssm(self, audio_input, hop_length_factor=None, n_chroma=None, bins_per_octave_multiplier=None, hop_length_multiplier=None, color_map=None, threshold=None):
+    def compute_ssm(self, audio_input, hop_length_factor=None, n_chroma=None, bins_per_octave_multiplier=None, hop_length_multiplier=None, threshold=None):
+        
         hop_length_factor = hop_length_factor if hop_length_factor is not None else self.hop_length_factor
         n_chroma = n_chroma if n_chroma is not None else self.n_chroma
         bins_per_octave_multiplier = bins_per_octave_multiplier if bins_per_octave_multiplier is not None else self.bins_per_octave_multiplier
         hop_length_multiplier = hop_length_multiplier if hop_length_multiplier is not None else self.hop_length_multiplier
-        color_map = color_map if color_map is not None else self.color_map
         threshold = threshold if threshold is not None else self.threshold
         
         # audio loading and cleaning
         if isinstance(audio_input, str):
-            audio, sr = librosa.load(audio_input, sr=None)  # Load with default sr to preserve the original
+            audio, sr = librosa.load(audio_input, sr=None)  # Load with default sr
         elif isinstance(audio_input, tuple) and len(audio_input) == 2:
             audio, sr = audio_input
         else:
-            raise ValueError("Invalid audio input. Must be either a file path or a tuple (sr, audio).")
+            raise ValueError("Invalid audio input. Must be either a file path or a tuple (audio, sr).")
 
         if audio.ndim > 1:
             audio = audio.mean(axis=1)
@@ -43,14 +43,27 @@ class SSM:
         S_upscaled = np.kron(S, np.ones((20, 20)))
         S_upscaled[S_upscaled < threshold] = 0
 
-        # plot and return
+        return S_upscaled
+
+    def create_img(self, audio_input, hop_length_factor=None, n_chroma=None, bins_per_octave_multiplier=None, hop_length_multiplier=None, color_map=None, threshold=None):
+        
+        hop_length_factor = hop_length_factor if hop_length_factor is not None else self.hop_length_factor
+        n_chroma = n_chroma if n_chroma is not None else self.n_chroma
+        bins_per_octave_multiplier = bins_per_octave_multiplier if bins_per_octave_multiplier is not None else self.bins_per_octave_multiplier
+        hop_length_multiplier = hop_length_multiplier if hop_length_multiplier is not None else self.hop_length_multiplier
+        color_map = color_map if color_map is not None else self.color_map
+        threshold = threshold if threshold is not None else self.threshold
+
+        S_upscaled = self.compute_ssm(audio_input, hop_length_factor, n_chroma, bins_per_octave_multiplier, hop_length_multiplier, threshold)
+        
+        # Plot and return
         fig, ax = plt.subplots(figsize=(8, 6))
         ax.imshow(S_upscaled, cmap=color_map)
         plt.axis('off')
-
+    
         buffer = io.BytesIO()
         plt.savefig(buffer, format='png', bbox_inches='tight', pad_inches=0)
         buffer.seek(0)
         plt.close(fig)
-
+        
         return Image.open(buffer)
