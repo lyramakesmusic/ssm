@@ -33,7 +33,7 @@ class SSM:
             audio = audio.mean(axis=1)
         audio = audio.astype(np.float32) / np.max(np.abs(audio))
         audio = np.pad(audio, (0, max(0, 2048 - len(audio))), mode='constant') if len(audio) < 2048 else audio
-
+    
         # the actual SSM algorithm
         hop_length = int(0.0695 * sr * hop_length_factor * hop_length_multiplier)
         bins_per_octave = int(bins_per_octave_multiplier * n_chroma)
