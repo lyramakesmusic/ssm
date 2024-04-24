@@ -39,4 +39,6 @@ image = ssm.compute_ssm(audio)
 image.save('generated_ssm.png')
 ```
 
+Colormaps can be found here: https://matplotlib.org/stable/users/explain/colors/colormaps.html
+
 Credit to https://github.com/RhizoNymph/ssm-gradio 
