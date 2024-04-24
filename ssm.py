@@ -4,10 +4,21 @@ import io
 import matplotlib.pyplot as plt
 
 class SSM:
-    def __init__(self):
-        pass
+    def __init__(self, hop_length_factor=1.0, n_chroma=24, bins_per_octave_multiplier=2.0, hop_length_multiplier=1.0, color_map='inferno', threshold=0.5):
+        self.hop_length_factor = hop_length_factor
+        self.n_chroma = n_chroma
+        self.bins_per_octave_multiplier = bins_per_octave_multiplier
+        self.hop_length_multiplier = hop_length_multiplier
+        self.color_map = color_map
+        self.threshold = threshold
 
-    def compute_ssm(self, audio_input, hop_length_factor, n_chroma, bins_per_octave_multiplier, hop_length_multiplier, color_map, threshold):
+    def compute_ssm(self, audio_input, hop_length_factor=None, n_chroma=None, bins_per_octave_multiplier=None, hop_length_multiplier=None, color_map=None, threshold=None):
+        hop_length_factor = hop_length_factor if hop_length_factor is not None else self.hop_length_factor
+        n_chroma = n_chroma if n_chroma is not None else self.n_chroma
+        bins_per_octave_multiplier = bins_per_octave_multiplier if bins_per_octave_multiplier is not None else self.bins_per_octave_multiplier
+        hop_length_multiplier = hop_length_multiplier if hop_length_multiplier is not None else self.hop_length_multiplier
+        color_map = color_map if color_map is not None else self.color_map
+        threshold = threshold if threshold is not None else self.threshold
         
         # audio loading and cleaning
         if isinstance(audio_input, str):
