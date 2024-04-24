@@ -40,10 +40,7 @@ class SSM:
         X = librosa.feature.chroma_cqt(y=audio, sr=sr, hop_length=hop_length, n_chroma=n_chroma, bins_per_octave=bins_per_octave).T
         S = librosa.segment.recurrence_matrix(X, mode='affinity', metric='cosine', sparse=False)
 
-        S_upscaled = np.kron(S, np.ones((20, 20)))
-        S_upscaled[S_upscaled < threshold] = 0
-
-        return S_upscaled
+        return S[S < threshold] = 0
 
     def create_img(self, audio_input, hop_length_factor=None, n_chroma=None, bins_per_octave_multiplier=None, hop_length_multiplier=None, color_map=None, threshold=None):
         
@@ -54,7 +51,8 @@ class SSM:
         color_map = color_map if color_map is not None else self.color_map
         threshold = threshold if threshold is not None else self.threshold
 
-        S_upscaled = self.compute_ssm(audio_input, hop_length_factor, n_chroma, bins_per_octave_multiplier, hop_length_multiplier, threshold)
+        S = self.compute_ssm(audio_input, hop_length_factor, n_chroma, bins_per_octave_multiplier, hop_length_multiplier, threshold)
+        S_upscaled = np.kron(S, np.ones((20, 20)))
         
         # Plot and return
         fig, ax = plt.subplots(figsize=(8, 6))
