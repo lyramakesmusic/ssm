@@ -1,3 +1,4 @@
+from PIL import Image
 import librosa
 import numpy as np
 import io
@@ -52,4 +53,4 @@ class SSM:
         buffer.seek(0)
         plt.close(fig)
 
-        return buffer.getvalue()
+        return Image.open(buffer)
