@@ -23,9 +23,9 @@ class SSM:
         
         # audio loading and cleaning
         if isinstance(audio_input, str):
-            sr, audio = librosa.load(audio_input, sr=None)  # Load with default sr to preserve the original
+            audio, sr = librosa.load(audio_input, sr=None)  # Load with default sr to preserve the original
         elif isinstance(audio_input, tuple) and len(audio_input) == 2:
-            sr, audio = audio_input
+            audio, sr = audio_input
         else:
             raise ValueError("Invalid audio input. Must be either a file path or a tuple (sr, audio).")
 
